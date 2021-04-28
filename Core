@@ -1,0 +1,108 @@
+class tileObj():
+	def __init__(self,char,*tags,**keytags):
+		self.tag=[]
+		for i in tags:
+			self.tag.append(i)
+		self.char=char
+		self.keytags=keytags
+		
+	def change_char(self,char):
+		self.char=char
+		
+	def add_tags(self,*tag):
+		for i in tag:
+			self.tags.append(i)
+			
+	def add_keywords(self,**keytags):
+		for i in keytags:
+			self.keytags[i]=keytags[i]
+	def key(self,key):
+		return self.keytags[key]
+
+def Tile(arg):
+	if not isinstance(arg,tileObj):
+		raise TypeError("Must be tileObj")
+	return isinstance(arg,tileObj)
+
+class Scene():
+	def __init__(self,x,y,tile=tileObj("#"),bordTile="X",border=False):
+		self.x=x
+		self.y=y
+		self.border=border
+		self.bordTile=bordTile
+		grid=[]
+		for i in range(y):
+			row=[]
+			for i in range(x):
+				row.append(tile)
+			grid.append(row)
+		self.grid=grid
+	
+	def draw(self,border=""):
+		if border =="":
+			border=self.border
+		temp=""
+		if border:
+			for i in range(self.x+2):
+				temp+=self.bordTile
+			temp+="\n"
+			
+		for i in self.grid:
+			if border:
+				temp+="X"
+			for y in i:
+				temp+=y.char
+			if border:
+				temp+="X"
+			temp+="\n"
+		if border:
+			for i in range(self.x+2):
+				temp+=self.bordTile
+			temp+="\n"
+		print(temp)
+	
+	def put(self,x,y,tile):
+		Tile(tile)
+		self.grid[y-1][x-1]=tile
+			
+	def get(self,x,y):
+		return self.grid[y-1][x-1]
+			
+	def char(self,x,y):
+		return self.grid[y-1][x-1].char
+		
+	def has_tag(self,x,y,tag):
+		if tag in self.grid[y-1][x-1].tag: 
+			return True
+		else:
+			return False
+	def change_char(self,x,y,char):
+		self.grid[y-1][x-1].change_char(char)
+		
+	def get_tags(self,x,y):
+		if isinstance(self.grid[y-1][x-1],tileObj):
+			pass
+	def rectangle(self,x1,y1,x2,y2,tile): 
+		if x1>x2:
+			bx=x1 
+			sx=x2
+		else:
+			bx=x2 
+			sx=x1
+		if y1>y2:
+			by=y1
+			sy=y2
+		else:
+			by=y2
+			sy=y1
+		for i in range(by-sy+1):
+			for y in range(bx-sx+1):
+				self.put(sx+y-1,sy+i-1,tile)
+		
+	def key(self,x,y,key):
+		return self.grid[y-1][x-1].key(key)
+			
+
+
+
+				
