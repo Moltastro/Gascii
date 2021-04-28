@@ -1,0 +1,27 @@
+from GASCII import *
+from time import sleep
+import math
+class cube():
+	def __init__(self,Map,x,y,r,rot,char=tileObj(" ")):
+		self.x=x
+		self.y=y
+		self.r=r
+		self.rot=rot
+		self.char=char
+		self.Map=Map
+	def put(self):
+		x=self.x
+		y=self.y
+		r=self.r
+		self.Map.put(x-r,y+r//2,self.char)
+		self.Map.put(x,y+r//2,self.char)
+		self.Map.put(x+r,y+r//2,self.char)
+		self.Map.put(x-r,y,self.char)
+		self.Map.put(x+r,y,self.char)
+		self.Map.put(x-r,y-r//2,self.char)
+		self.Map.put(x,y-r//2,self.char)
+		self.Map.put(x+r,y-r//2,self.char)
+Map=Scene(30,18)
+Cube=cube(Map,7,7,2,0)
+Cube.put()
+Map.draw()
